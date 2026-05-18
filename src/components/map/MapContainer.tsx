@@ -1,9 +1,7 @@
 import { useEffect, useRef } from 'react'
-import * as mapboxgl from 'mapbox-gl'
+import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { FeatureCollection, LineString } from 'geojson'
-
-mapboxgl.default.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
 
 interface MapContainerProps {
   route: FeatureCollection | null
@@ -13,6 +11,8 @@ interface MapContainerProps {
 
 const MADRID_CENTER: [number, number] = [-3.7038, 40.4168]
 const DARK_STYLE = 'mapbox://styles/marcosms05/cmpblvuoc000y01s85dx24oz9'
+
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
 
 export default function MapContainer({ route, is3D, onMapReady }: MapContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -24,61 +24,65 @@ export default function MapContainer({ route, is3D, onMapReady }: MapContainerPr
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
 
-    const map = new mapboxgl.Map({
-      container: containerRef.current,
-      style: DARK_STYLE,
-      center: MADRID_CENTER,
-      zoom: 12,
-      pitch: 0,
-      bearing: 0,
-    })
-
-    map.addControl(new mapboxgl.NavigationControl({ showCompass: true }), 'top-right')
-    map.addControl(new mapboxgl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: true }), 'top-right')
-
-    map.on('load', () => {
-      // Route source
-      map.addSource('route', {
-        type: 'geojson',
-        data: { type: 'FeatureCollection', features: [] },
+    try {
+      const map = new mapboxgl.Map({
+        container: containerRef.current,
+        style: DARK_STYLE,
+        center: MADRID_CENTER,
+        zoom: 12,
+        pitch: 0,
+        bearing: 0,
       })
 
-      // Glow layer (wide, blurred)
-      map.addLayer({
-        id: 'route-glow',
-        type: 'line',
-        source: 'route',
-        layout: { 'line-join': 'round', 'line-cap': 'round' },
-        paint: {
-          'line-color': '#06B6D4',
-          'line-width': 16,
-          'line-opacity': 0.15,
-          'line-blur': 6,
-        },
+      map.addControl(new mapboxgl.NavigationControl({ showCompass: true }), 'top-right')
+      map.addControl(new mapboxgl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: true }), 'top-right')
+
+      map.on('load', () => {
+        // Route source
+        map.addSource('route', {
+          type: 'geojson',
+          data: { type: 'FeatureCollection', features: [] },
+        })
+
+        // Glow layer (wide, blurred)
+        map.addLayer({
+          id: 'route-glow',
+          type: 'line',
+          source: 'route',
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: {
+            'line-color': '#06B6D4',
+            'line-width': 16,
+            'line-opacity': 0.15,
+            'line-blur': 6,
+          },
+        })
+
+        // Main route line
+        map.addLayer({
+          id: 'route-line',
+          type: 'line',
+          source: 'route',
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: {
+            'line-color': '#06B6D4',
+            'line-width': 4,
+            'line-opacity': 0.95,
+          },
+        })
+
+        onMapReady?.()
       })
 
-      // Main route line
-      map.addLayer({
-        id: 'route-line',
-        type: 'line',
-        source: 'route',
-        layout: { 'line-join': 'round', 'line-cap': 'round' },
-        paint: {
-          'line-color': '#06B6D4',
-          'line-width': 4,
-          'line-opacity': 0.95,
-        },
-      })
-
-      onMapReady?.()
-    })
-
-    mapRef.current = map
+      mapRef.current = map
+    } catch (error) {
+      console.error('Error initializing map:', error)
+    }
 
     return () => {
       originMarkerRef.current?.remove()
       destMarkerRef.current?.remove()
-      map.remove()
+      mapRef.current?.remove()
       mapRef.current = null
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import MiniMap from './MiniMap'
 
 interface Feature {
   badge:       string
@@ -17,7 +18,7 @@ const FEATURES: Feature[] = [
     heading:      'Navegación 2D y 3D con precisión cartográfica',
     body:         'SAFY utiliza Mapbox GL JS para renderizar mapas fluidos con vistas en 2D y perspectiva 3D. Cada ruta se superpone como una capa GeoJSON sobre el mapa oscuro, calculada en tiempo real por el backend.',
     link:         'Probar el mapa →',
-    visual:       <MapVisual />,
+    visual:       <MiniMap />,
     reverse:      false,
   },
   {
@@ -108,38 +109,6 @@ function FeatureRow({ feature: f }: { feature: Feature }) {
 }
 
 /* ── Visuals ── */
-
-function MapVisual() {
-  return (
-    <div className="relative p-6 h-80 overflow-hidden">
-      {/* 2D / 3D toggle */}
-      <div className="absolute top-4 right-4 flex gap-1.5 z-10">
-        <button className="text-caption font-bold text-white uppercase tracking-[1px] px-2 py-1 rounded-pill bg-signal">
-          2D
-        </button>
-        <button className="text-caption font-medium text-fog uppercase tracking-[1px] px-2 py-1 rounded-pill border border-pewter">
-          3D
-        </button>
-      </div>
-
-      {/* Map grid */}
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 320" fill="none">
-        {[40, 90, 140, 190, 240, 290].map(y => (
-          <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="#1c1f24" strokeWidth="0.8" />
-        ))}
-        {[40, 90, 140, 190, 240, 290, 340, 380].map(x => (
-          <line key={x} x1={x} y1="0" x2={x} y2="320" stroke="#1c1f24" strokeWidth="0.8" />
-        ))}
-        {/* Route */}
-        <path d="M60 270 C80 210 130 180 190 140 C250 100 310 75 340 50" stroke="#04cddd" strokeWidth="3" strokeLinecap="round" className="route-path" />
-        <circle cx="60" cy="270" r="7" fill="#228a56" />
-        <circle cx="60" cy="270" r="3" fill="#fff" />
-        <circle cx="340" cy="50" r="7" fill="#04cddd" />
-        <circle cx="340" cy="50" r="3" fill="#fff" />
-      </svg>
-    </div>
-  )
-}
 
 function IncidentVisual() {
   const incidents = [
