@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import Button from '../ui/Button'
+import { useAuth } from '../../context/AuthContext'
 
 const NAV_LINKS = [
   { label: 'Inicio',         href: '/#inicio'         },
@@ -13,9 +14,10 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled,  setScrolled]  = useState(false)
   const [menuOpen,  setMenuOpen]  = useState(false)
-  const location  = useLocation()
-  const navigate  = useNavigate()
-  const isMapPage = location.pathname === '/map'
+  const location          = useLocation()
+  const navigate          = useNavigate()
+  const { isAuthenticated, logout } = useAuth()
+  const isMapPage         = location.pathname === '/map'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -64,19 +66,41 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Right: ghost "Iniciar sesión" + primary pill */}
+        {/* Right */}
         <div className="hidden md:flex items-center gap-4">
           {isMapPage ? (
-            <Link to="/">
-              <Button variant="ghost" size="sm">← Inicio</Button>
-            </Link>
-          ) : (
+            <>
+              <Link to="/">
+                <Button variant="ghost" size="sm">← Inicio</Button>
+              </Link>
+              <Button
+                variant="utility"
+                size="sm"
+                onClick={() => { logout(); navigate('/') }}
+              >
+                Cerrar sesión
+              </Button>
+            </>
+          ) : isAuthenticated ? (
             <>
               <Link to="/map">
+                <Button variant="ghost" size="sm">Ir al mapa</Button>
+              </Link>
+              <Button
+                variant="utility"
+                size="sm"
+                onClick={() => { logout(); navigate('/') }}
+              >
+                Cerrar sesión
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link to="/login">
                 <Button variant="ghost" size="sm">Iniciar sesión</Button>
               </Link>
-              <Link to="/map">
-                <Button variant="primary" size="sm">Probar Mapa</Button>
+              <Link to="/register">
+                <Button variant="primary" size="sm">Registrarse</Button>
               </Link>
             </>
           )}
@@ -105,12 +129,37 @@ export default function Navbar() {
               {link.label}
             </button>
           ))}
-          <div className="mt-3 pt-3 border-t border-gunmetal">
-            <Link to="/map" className="block">
-              <Button variant="primary" size="md" className="w-full justify-center">
-                Probar Mapa
-              </Button>
-            </Link>
+          <div className="mt-3 pt-3 border-t border-gunmetal flex flex-col gap-2">
+            {isAuthenticated ? (
+              <>
+                <Link to="/map" className="block">
+                  <Button variant="primary" size="md" className="w-full justify-center">
+                    Ir al mapa
+                  </Button>
+                </Link>
+                <Button
+                  variant="utility"
+                  size="md"
+                  className="w-full justify-center"
+                  onClick={() => { logout(); navigate('/') }}
+                >
+                  Cerrar sesión
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="block">
+                  <Button variant="outline" size="md" className="w-full justify-center">
+                    Iniciar sesión
+                  </Button>
+                </Link>
+                <Link to="/register" className="block">
+                  <Button variant="primary" size="md" className="w-full justify-center">
+                    Registrarse
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

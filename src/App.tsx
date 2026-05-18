@@ -1,17 +1,21 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import LandingPage from './pages/LandingPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import ProtectedRoute from './components/auth/ProtectedRoute'
 
 const MapPage = lazy(() => import('./pages/MapPage'))
 
 function MapFallback() {
   return (
-    <div className="flex items-center justify-center h-screen bg-safy-bg">
+    <div className="flex items-center justify-center h-screen bg-void">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-10 h-10 border-2 border-safy-border border-t-safy-cyan rounded-full animate-spin" />
-        <span className="text-sm font-body text-safy-muted">Cargando mapa…</span>
+        <div className="w-10 h-10 border-2 border-steel border-t-signal rounded-full animate-spin" />
+        <span className="text-body-sm text-fog">Cargando mapa…</span>
       </div>
     </div>
   )
@@ -20,28 +24,40 @@ function MapFallback() {
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-safy-bg text-safy-text">
-        <Navbar />
+      <AuthProvider>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <LandingPage />
-                <Footer />
-              </>
-            }
-          />
+          {/* Auth pages — full screen, no navbar/footer */}
+          <Route path="/login"    element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+
+          {/* Map page — protected, no footer */}
           <Route
             path="/map"
             element={
-              <Suspense fallback={<MapFallback />}>
-                <MapPage />
-              </Suspense>
+              <ProtectedRoute>
+                <div className="min-h-screen bg-void">
+                  <Navbar />
+                  <Suspense fallback={<MapFallback />}>
+                    <MapPage />
+                  </Suspense>
+                </div>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Landing page */}
+          <Route
+            path="/"
+            element={
+              <div className="min-h-screen bg-void text-fog">
+                <Navbar />
+                <LandingPage />
+                <Footer />
+              </div>
             }
           />
         </Routes>
-      </div>
+      </AuthProvider>
     </BrowserRouter>
   )
 }
