@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    background-color: #0e1012;
+    color: #a0aaba;
+    font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Mapbox rule: headings are white, body is fog (#a0aaba) */
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #0e1012; }
+  ::-webkit-scrollbar-thumb { background: #333943; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #444d5a; }
+}
+
+@layer components {
+  /* Mapbox layout container — max 1344px */
+  .page-container {
+    @apply max-w-page mx-auto px-6 lg:px-8;
+  }
+
+  /* All-caps eyebrow label — 10px, slate, +1px tracking */
+  .eyebrow {
+    @apply text-caption font-medium text-slate uppercase tracking-[1px];
+  }
+
+  /* Primary CTA — signal blue pill */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-pill
+           bg-signal text-white font-medium text-body
+           hover:bg-deep-signal active:scale-[0.98]
+           transition-all duration-150 cursor-pointer;
+  }
+
+  /* Outlined pill — ghost on dark */
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-pill
+           bg-transparent border border-silver text-white font-medium text-body
+           hover:border-white active:scale-[0.98]
+           transition-all duration-150 cursor-pointer;
+  }
+
+  /* Ghost text button — no frame */
+  .btn-ghost {
+    @apply inline-flex items-center gap-1.5
+           bg-transparent text-white font-medium text-body
+           hover:text-signal transition-colors duration-150 cursor-pointer;
+  }
+
+  /* Utility / icon frame button — 6px sharp radius */
+  .btn-utility {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-2
+           bg-transparent border border-pewter text-white font-medium text-body-sm
+           rounded-input hover:border-silver
+           transition-colors duration-150 cursor-pointer;
+  }
+
+  /* Product Update Badge — map green, 4px radius */
+  .badge-green {
+    @apply inline-block text-caption font-bold text-white uppercase tracking-[1px]
+           px-2 py-1 rounded-badge bg-map-green;
+  }
+
+  /* Info badge — deep signal, 4px radius */
+  .badge-blue {
+    @apply inline-block text-caption font-bold text-white uppercase tracking-[1px]
+           px-2 py-1 rounded-badge bg-deep-signal;
+  }
+
+  /* Dark card surface — charcoal, 24px radius */
+  .card {
+    @apply bg-charcoal rounded-card p-6;
+  }
+}
+
+/* Route draw animation for phone mockup */
+.route-path {
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  animation: drawRoute 2.5s ease-out 0.5s forwards;
+}
+
+@keyframes drawRoute {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Mapbox attribution overrides */
+.mapboxgl-ctrl-logo { display: none !important; }
+.mapboxgl-ctrl-attrib {
+  background: rgba(14, 16, 18, 0.85) !important;
+  color: #566171 !important;
+  font-size: 10px !important;
+}
+.mapboxgl-ctrl-attrib a { color: #566171 !important; }

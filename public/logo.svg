@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none">
+  <!-- Shield — signal blue, the sole accent -->
+  <path d="M18 4L6 9v9c0 7.18 5.14 13.9 12 15.5C24.86 31.9 30 25.18 30 18V9L18 4z" fill="#007afc"/>
+  <!-- Navigation pin inside shield — white -->
+  <circle cx="18" cy="17" r="3.5" fill="rgba(255,255,255,0.2)"/>
+  <path d="M14.5 21.5 L18 14 L21.5 21.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="18" cy="21.5" r="1.4" fill="#ffffff"/>
+  <!-- Wordmark — white for dark backgrounds -->
+  <text x="38" y="30" font-family="'DM Sans', sans-serif" font-weight="700" font-size="22" fill="#ffffff" letter-spacing="1">SAFY</text>
+</svg>
