@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+
 import { Link } from 'react-router-dom'
 import Button from '../ui/Button'
 
@@ -9,10 +10,10 @@ interface Stat {
 }
 
 const STATS: Stat[] = [
-  { value: 12500, suffix: '+', label: 'Zonas evaluadas'       },
-  { value: 8200,  suffix: '+', label: 'Usuarios activos'      },
-  { value: 3400,  suffix: '+', label: 'Incidencias resueltas' },
-  { value: 98,    suffix: '%', label: 'Satisfacción'          },
+  { value: 2000, suffix: '+', label: 'Usuarios registrados (1º mes)' },
+  { value: 50,   suffix: '+', label: 'Barrios cubiertos' },
+  { value: 3500, suffix: '+', label: 'Rutas simuladas' },
+  { value: 1000, suffix: '+', label: 'Riesgos identificados' },
 ]
 
 function useCountUp(target: number, duration = 1800, active = false) {
@@ -52,7 +53,7 @@ export default function Stats() {
 
           {/* Eyebrow — slate, all-caps, +letter-spacing */}
           <p className="eyebrow text-center mb-12 tracking-[0.84px]">
-            Impacto en números
+            Métricas esperadas
           </p>
 
           {/* Stat grid — numbers on void, no card frames */}
@@ -97,16 +98,26 @@ export default function Stats() {
 
               {/* CTA row — primary pill + outlined pill */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <a href="#">
-                  <Button variant="primary" size="lg">
-                    <AppleIcon />
-                    App Store
+                <a href="#" className="group">
+                  <Button variant="primary" size="lg" className="relative flex items-center gap-2 !pl-5 !pr-5 overflow-hidden">
+                    <span className="flex items-center">
+                      <AppleIcon />
+                    </span>
+                    <span className="relative w-[130px] flex items-center justify-start">
+                      <span className="block absolute left-4 transition-opacity duration-200 group-hover:opacity-0">App Store</span>
+                      <span className="block absolute left-0 font-medium text-fog opacity-0 group-hover:opacity-100 transition-opacity">próximamente&#8594;</span>
+                    </span>
                   </Button>
                 </a>
-                <a href="#">
-                  <Button variant="outline" size="lg">
-                    <GooglePlayIcon />
-                    Google Play
+                <a href="#" className="group">
+                  <Button variant="outline" size="lg" className="relative flex items-center gap-2 !pl-5 !pr-5 overflow-hidden">
+                    <span className="flex items-center">
+                      <GooglePlayIcon />
+                    </span>
+                    <span className="relative w-[130px] flex items-center justify-start">
+                      <span className="block absolute left-4 transition-opacity duration-200 group-hover:opacity-0">Google Play</span>
+                      <span className="block absolute left-0 font-medium text-fog opacity-0 group-hover:opacity-100 transition-opacity">próximamente&#8594;</span>
+                    </span>
                   </Button>
                 </a>
                 <Link to="/map">

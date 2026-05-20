@@ -15,7 +15,7 @@ export default function Footer() {
 
           {/* Brand — left column */}
           <div className="md:col-span-2 space-y-5">
-            <img src="/logo.svg" alt="SAFY" className="h-7 w-auto" />
+            <img src="/safy-logo.svg" alt="SAFY" className="h-7 w-auto" />
             <p className="text-body text-fog leading-relaxed max-w-xs">
               La primera app de navegación que prioriza tu seguridad. Datos
               del INE más reportes de incidencias en tiempo real.
@@ -23,7 +23,7 @@ export default function Footer() {
             <a
               href="https://github.com"
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className="btn-utility inline-flex"
             >
               <Github className="w-4 h-4" />
@@ -37,16 +37,30 @@ export default function Footer() {
               {/* All-caps section label */}
               <p className="eyebrow">{section}</p>
               <ul className="space-y-2.5">
-                {links.map(link => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className="text-body text-fog hover:text-white transition-colors duration-150"
-                    >
-                      {link}
-                    </a>
-                  </li>
-                ))}
+                 {links.map(link => {
+                    let route = undefined;
+                    if (link === 'Política de Privacidad') route = '/privacy';
+                    else if (link === 'Términos de Uso') route = '/terms';
+                    return (
+                      <li key={link}>
+                        {route ? (
+                          <a
+                            href={route}
+                            className="text-body text-fog hover:text-white transition-colors duration-150"
+                          >
+                            {link}
+                          </a>
+                        ) : (
+                          <a
+                            href="#"
+                            className="text-body text-fog hover:text-white transition-colors duration-150"
+                          >
+                            {link}
+                          </a>
+                        )}
+                      </li>
+                    )
+                  })}
               </ul>
             </div>
           ))}

@@ -5,10 +5,11 @@ import Button from '../ui/Button'
 import { useAuth } from '../../context/AuthContext'
 
 const NAV_LINKS = [
-  { label: 'Inicio',         href: '/#inicio'         },
+  { label: 'Inicio',           href: '/#inicio'         },
   { label: 'Características', href: '/#caracteristicas' },
-  { label: 'Seguridad',      href: '/#seguridad'      },
-  { label: 'Descargar',      href: '/#descargar'      },
+  { label: 'Seguridad',        href: '/#seguridad'      },
+  { label: 'Descargar',        href: '/#descargar'      },
+  { label: 'Cómo calcula SAFY', href: '/how-it-works'   }, // NUEVO: demo cálculo
 ]
 
 export default function Navbar() {
@@ -29,6 +30,10 @@ export default function Navbar() {
 
   function handleNavClick(href: string) {
     setMenuOpen(false)
+    if (href.startsWith('/how-it-works')) {
+      navigate('/how-it-works');
+      return;
+    }
     const id = href.replace('/#', '')
     if (location.pathname !== '/') {
       navigate('/')

@@ -7,6 +7,9 @@ import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfUse from './pages/TermsOfUse';
+import HowItWorks from './pages/HowItWorks';
 
 const MapPage = lazy(() => import('./pages/MapPage'))
 
@@ -25,38 +28,72 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          {/* Auth pages — full screen, no navbar/footer */}
-          <Route path="/login"    element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+         <Routes>
+            {/* Auth pages — full screen, no navbar/footer */}
+            <Route path="/login"    element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
 
-          {/* Map page — protected, no footer */}
-          <Route
-            path="/map"
-            element={
-              <ProtectedRoute>
-                <div className="min-h-screen bg-void">
+            {/* Map page — protected, no footer */}
+            <Route
+              path="/map"
+              element={
+                <ProtectedRoute>
+                  <div className="min-h-screen bg-void">
+                    <Navbar />
+                    <Suspense fallback={<MapFallback />}>
+                      <MapPage />
+                    </Suspense>
+                  </div>
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Política de Privacidad */}
+            <Route
+              path="/privacy"
+              element={
+                <div className="min-h-screen bg-void text-fog">
                   <Navbar />
-                  <Suspense fallback={<MapFallback />}>
-                    <MapPage />
-                  </Suspense>
+                  <PrivacyPolicy />
+                  <Footer />
                 </div>
-              </ProtectedRoute>
-            }
-          />
+              }
+            />
+            {/* Términos de Uso */}
+            <Route
+              path="/terms"
+              element={
+                <div className="min-h-screen bg-void text-fog">
+                  <Navbar />
+                  <TermsOfUse />
+                  <Footer />
+                </div>
+              }
+            />
 
-          {/* Landing page */}
-          <Route
-            path="/"
-            element={
-              <div className="min-h-screen bg-void text-fog">
-                <Navbar />
-                <LandingPage />
-                <Footer />
-              </div>
-            }
-          />
-        </Routes>
+            {/* Página cómo funciona safy */}
+            <Route
+              path="/how-it-works"
+              element={
+                <div className="min-h-screen bg-void text-fog">
+                  <Navbar />
+                  <HowItWorks />
+                  <Footer />
+                </div>
+              }
+            />
+            {/* Landing page */}
+            <Route
+              path="/"
+              element={
+                <div className="min-h-screen bg-void text-fog">
+                  <Navbar />
+                  <LandingPage />
+                  <Footer />
+                </div>
+              }
+            />
+          </Routes>
       </AuthProvider>
     </BrowserRouter>
   )

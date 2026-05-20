@@ -83,7 +83,7 @@ function FeatureRow({ feature: f }: { feature: Feature }) {
 
       {/* Ghost link — signal blue */}
       <a
-        href="#"
+        href={f.link === 'Ver cómo funciona →' ? '/how-it-works' : (f.link === 'Probar el mapa →' ? '/map' : '#')}
         className="text-body font-medium text-signal hover:underline transition-colors self-start"
       >
         {f.link}
