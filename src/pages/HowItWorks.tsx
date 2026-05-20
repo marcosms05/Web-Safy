@@ -3,7 +3,7 @@ import Button from "../components/ui/Button";
 import { Link } from "react-router-dom";
 import mapboxgl from 'mapbox-gl';
 
-const MADRID_CENTER: [number, number] = [-3.7038, 40.4168];
+// const MADRID_CENTER: [number, number] = [-3.7038, 40.4168];
 const DARK_STYLE = 'mapbox://styles/marcosms05/cmpblvuoc000y01s85dx24oz9';
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
