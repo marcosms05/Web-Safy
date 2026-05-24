@@ -48,7 +48,7 @@ const [geoLoading, setGeoLoading] = useState(false);
     // --- FIX RADICAL ---
     let resizeObsArray = null;
     if ('ResizeObserver' in window && mapContainer.current) {
-      let node = mapContainer.current;
+      let node: HTMLElement | null = mapContainer.current;
       const observers = [];
       while (node) {
         const obs = new ResizeObserver(() => map.resize());
@@ -214,7 +214,7 @@ const [geoLoading, setGeoLoading] = useState(false);
                   setLon(Number(pos.coords.longitude.toFixed(5)));
                   setGeoLoading(false);
                 },
-                err => {
+                  () => {
                   setGeoLoading(false);
                   alert("No se pudo obtener tu ubicación");
                 }
