@@ -44,8 +44,9 @@ export default function MapPage() {
 <div
           className={[
             'shrink-0 transition-all duration-300 overflow-hidden',
-            sidebarOpen ? 'h-[320px] md:h-auto md:w-[360px]' : 'h-0 md:h-auto md:w-0',
-            'w-full md:w-[360px]'
+            sidebarOpen
+              ? 'w-full md:w-[360px] h-[320px] md:h-auto'
+              : 'w-0 md:w-0 h-0 md:h-full hidden md:block',
           ].join(' ')}
         >
           <div className="w-full md:w-[360px] h-full md:h-full">
