@@ -1,18 +1,30 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import type { FeatureCollection } from 'geojson'
-import MapContainer from '../components/map/MapContainer'
+import MapContainer, { type MapRef } from '../components/map/MapContainer'
 import Sidebar from '../components/map/Sidebar'
 import { calculateRoute } from '../services/routeService'
 import type { GeocodingFeature, RouteResponse } from '../types'
 import { PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 
 export default function MapPage() {
+  const mapRef = useRef<MapRef>(null)
   const [routeResult,  setRouteResult]  = useState<RouteResponse | null>(null)
   const [routeGeoJSON, setRouteGeoJSON] = useState<FeatureCollection | null>(null)
   const [isLoading,    setIsLoading]    = useState(false)
   const [error,        setError]        = useState<string | null>(null)
   const [is3D,         setIs3D]         = useState(false)
   const [sidebarOpen,  setSidebarOpen]  = useState(true)
+
+  useEffect(() => {
+    // Redimensiona el mapa cuando el sidebar cambia su estado, con un pequeño retraso
+    // para permitir que la animación CSS del sidebar termine primero.
+    const timer = setTimeout(() => {
+      mapRef.current?.resize()
+    }, 350) // La duración de la transición en el sidebar es de 300ms
+
+    return () => clearTimeout(timer)
+  }, [sidebarOpen])
+
 
   const handleCalculate = useCallback(
     async (origin: GeocodingFeature, destination: GeocodingFeature) => {
@@ -64,7 +76,7 @@ export default function MapPage() {
 
       {/* Map area */}
       <div className="relative flex-1 min-h-[50vh] min-w-0">
-        <MapContainer route={routeGeoJSON} is3D={is3D} />
+        <MapContainer ref={mapRef} route={routeGeoJSON} is3D={is3D} />
 
         {/* Toggle — utility button style (6px radius, pewter border) */}
         <button
