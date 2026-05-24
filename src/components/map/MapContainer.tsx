@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { FeatureCollection, LineString } from 'geojson'
@@ -9,16 +9,27 @@ interface MapContainerProps {
   onMapReady?: () => void
 }
 
+export interface MapRef {
+  resize: () => void
+}
+
 const MADRID_CENTER: [number, number] = [-3.7038, 40.4168]
 const DARK_STYLE = 'mapbox://styles/marcosms05/cmpblvuoc000y01s85dx24oz9'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
 
-export default function MapContainer({ route, is3D, onMapReady }: MapContainerProps) {
+const MapContainer = forwardRef<MapRef, MapContainerProps>(({ route, is3D, onMapReady }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const originMarkerRef = useRef<mapboxgl.Marker | null>(null)
   const destMarkerRef = useRef<mapboxgl.Marker | null>(null)
+
+  useImperativeHandle(ref, () => ({
+    resize: () => {
+      mapRef.current?.resize()
+    },
+  }))
+
 
   // Initialize map once
   useEffect(() => {
@@ -154,7 +165,8 @@ export default function MapContainer({ route, is3D, onMapReady }: MapContainerPr
       {/* Map renders here */}
     </div>
   )
-}
+})
+export default MapContainer
 
 /** Helper to add a styled marker dot */
 export function createMarker(color: string): mapboxgl.Marker {
