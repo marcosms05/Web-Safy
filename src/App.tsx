@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/layout/Navbar'
@@ -10,6 +10,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute'
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
 import HowItWorks from './pages/HowItWorks';
+import CookiesPolicy from './pages/CookiesPolicy';
 
 const MapPage = lazy(() => import('./pages/MapPage'))
 
@@ -25,6 +26,20 @@ function MapFallback() {
 }
 
 export default function App() {
+  useEffect(() => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+      // Forzamos un pequeño retardo para que la carga no sea demasiado brusca
+      setTimeout(() => {
+        preloader.classList.add('loaded');
+        // Opcional: eliminar el preloader del DOM después de la transición
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 500); // Coincide con la duración de la transición en CSS
+      }, 500); // 500ms de retardo mínimo
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -89,6 +104,18 @@ export default function App() {
                 <div className="min-h-screen bg-void text-fog">
                   <Navbar />
                   <LandingPage />
+                  <Footer />
+                </div>
+              }
+            />
+            
+            {/* Política de Cookies */}
+            <Route
+              path="/cookies"
+              element={
+                <div className="min-h-screen bg-void text-fog">
+                  <Navbar />
+                  <CookiesPolicy />
                   <Footer />
                 </div>
               }
