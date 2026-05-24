@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 export default function NotificationSection() {
   return (
     <section className="bg-charcoal py-20">
