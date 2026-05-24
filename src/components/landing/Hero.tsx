@@ -20,15 +20,23 @@ export default function Hero() {
           Rutas seguras.<br />En tiempo real.
         </h1>
 
-        {/* Subtext — 18px, fog (#a0aaba), max-width 560px */}
-        <p
-          className="text-subheading text-fog mx-auto mb-10 leading-relaxed animate-slide-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]"
-          style={{ maxWidth: '560px' }}
-        >
-          SAFY calcula la ruta más rápida priorizando tu seguridad. Powered
-          por reportes comunitarios en tiempo real y estadísticas del{' '}
-          <span className="text-white font-medium">INE</span>.
-        </p>
+         {/* Subtext — 18px, fog (#a0aaba), max-width 560px */}
+         <p
+           className="text-subheading text-fog mx-auto mb-7 leading-relaxed animate-slide-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]"
+           style={{ maxWidth: '560px' }}
+         >
+           SAFY calcula la ruta más rápida priorizando tu seguridad. Powered
+           por reportes comunitarios en tiempo real y estadísticas del{' '}
+           <span className="text-white font-medium">INE</span>.
+         </p>
+
+         {/* Frase de impacto minimalista e integrada */}
+         <div
+           className="font-semibold text-white/80 text-lg italic mb-10 animate-slide-up [animation-delay:260ms] opacity-0 [animation-fill-mode:forwards]"
+           style={{letterSpacing: '-0.8px'}}
+         >
+           Es mejor llegar tarde, que no llegar.
+         </div>
 
         {/* Dual CTA pills */}
         <div

@@ -38,16 +38,17 @@ export default function MapPage() {
   function handleClear() { setRouteResult(null); setRouteGeoJSON(null); setError(null) }
 
   return (
-    <div className="flex h-screen pt-[62px] bg-void overflow-hidden">
+    <div className="flex flex-col md:flex-row h-screen pt-[62px] bg-void overflow-hidden">
 
       {/* Sidebar — charcoal surface */}
-      <div
-        className={[
-          'shrink-0 transition-all duration-300 overflow-hidden',
-          sidebarOpen ? 'w-[360px]' : 'w-0',
-        ].join(' ')}
-      >
-        <div className="w-[360px] h-full">
+<div
+          className={[
+            'shrink-0 transition-all duration-300 overflow-hidden',
+            sidebarOpen ? 'h-[320px] md:h-auto md:w-[360px]' : 'h-0 md:h-auto md:w-0',
+            'w-full md:w-[360px]'
+          ].join(' ')}
+        >
+          <div className="w-full md:w-[360px] h-full md:h-full">
           <Sidebar
             onCalculate={handleCalculate}
             routeResult={routeResult}
@@ -61,7 +62,7 @@ export default function MapPage() {
       </div>
 
       {/* Map area */}
-      <div className="relative flex-1 min-w-0">
+      <div className="relative flex-1 min-h-[50vh] min-w-0">
         <MapContainer route={routeGeoJSON} is3D={is3D} />
 
         {/* Toggle — utility button style (6px radius, pewter border) */}
