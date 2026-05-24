@@ -9,7 +9,7 @@ export default function Hero() {
 
         {/* Product Update Badge — map green, 4px radius */}
         <div className="flex justify-center mb-6 animate-slide-up">
-          <span className="badge-green">Nueva generación · 2024</span>
+          <span className="badge-green">Nueva generación · 2026</span>
         </div>
 
         {/* Display headline — DM Sans 700, 68px, white, -1.36px tracking */}

@@ -41,6 +41,11 @@ export default function Footer() {
                     let route = undefined;
                     if (link === 'Política de Privacidad') route = '/privacy';
                     else if (link === 'Términos de Uso') route = '/terms';
+                    else if (link === 'Cookies') route = '/cookies';
+                    else if (link === 'Características') route = '/#caracteristicas';
+                    else if (link === 'Seguridad') route = '/#seguridad';
+                    else if (link === 'Mapa Interactivo') route = '/map';
+                    else if (link === 'Descargar') route = '/#descargar';
                     return (
                       <li key={link}>
                         {route ? (
@@ -73,7 +78,7 @@ export default function Footer() {
             © {year} SAFY. Todos los derechos reservados.
           </p>
           {/* TFG credit — badge style */}
-          <span className="badge-blue">TFG · DAM · 2024</span>
+          <span className="badge-blue">TFG · DAM · 2026</span>
         </div>
       </div>
     </footer>
