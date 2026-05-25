@@ -1,6 +1,5 @@
 import type { FeatureCollection } from 'geojson'
 import type { RouteRequest, RouteResponse } from '../types'
-import { TOKEN_KEY } from '../context/AuthContext'
 
 const API_BASE     = import.meta.env.VITE_API_BASE_URL
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN
@@ -41,13 +40,12 @@ export async function calculateRoute(req: RouteRequest): Promise<RouteResponse> 
   const midIdx      = Math.floor(route.geometry.coordinates.length / 2)
   const [midLng, midLat] = route.geometry.coordinates[midIdx]
 
-  const token = localStorage.getItem(TOKEN_KEY)
   let safety_index = 70
 
   try {
     const scoreRes = await fetch(
       `${API_BASE}/api/score?lat=${midLat}&lon=${midLng}`,
-      { headers: token ? { Authorization: `Bearer ${token}` } : {} }
+      { credentials: 'include' }     // la cookie viaja automáticamente si la hay
     )
     if (scoreRes.ok) {
       const scoreData = await scoreRes.json() as { score: number }

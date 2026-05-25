@@ -20,8 +20,8 @@ export default function RegisterPage() {
     setError(null)
     setIsLoading(true)
     try {
-      const { token } = await registerUser({ name, email, password })
-      login(token)
+      await registerUser({ name, email, password })   // la cookie la setea el backend
+      login()
       navigate('/map', { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al crear la cuenta')

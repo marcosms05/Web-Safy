@@ -21,8 +21,8 @@ export default function LoginPage() {
     setError(null)
     setIsLoading(true)
     try {
-      const { token } = await loginUser({ email, password })
-      login(token)
+      await loginUser({ email, password })   // la cookie la setea el backend
+      login()
       navigate(from, { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Credenciales incorrectas')
