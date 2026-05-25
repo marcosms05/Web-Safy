@@ -81,7 +81,7 @@ export default function Navbar() {
               <Button
                 variant="utility"
                 size="sm"
-                onClick={() => { logout(); navigate('/') }}
+                onClick={async () => { await logout(); navigate('/') }}
               >
                 Cerrar sesión
               </Button>
@@ -94,7 +94,7 @@ export default function Navbar() {
               <Button
                 variant="utility"
                 size="sm"
-                onClick={() => { logout(); navigate('/') }}
+                onClick={async () => { await logout(); navigate('/') }}
               >
                 Cerrar sesión
               </Button>
@@ -146,7 +146,7 @@ export default function Navbar() {
                   variant="utility"
                   size="md"
                   className="w-full justify-center"
-                  onClick={() => { logout(); navigate('/') }}
+                  onClick={async () => { await logout(); navigate('/') }}
                 >
                   Cerrar sesión
                 </Button>
